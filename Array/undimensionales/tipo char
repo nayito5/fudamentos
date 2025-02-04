@@ -1,0 +1,112 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+// Función para obtener la elección del usuario
+int obtenerEleccionUsuario() {
+    int eleccion;
+    cout << "Elige una opción (1 = Piedra, 2 = Papel, 3 = Tijera): ";
+    cin >> eleccion;
+    return eleccion;
+}
+
+// Función para obtener la elección de la máquina
+int obtenerEleccionMaquina() {
+    return rand() % 3 + 1;  
+}
+
+// Función para determinar el ganador de la ronda
+int determinarGanador(int usuario, int maquina) {
+    if (usuario == maquina) {
+        return 0; // Empate
+    }
+    if ((usuario == 1 && maquina == 3) || (usuario == 2 && maquina == 1) || (usuario == 3 && maquina == 2)) {
+        return 1; // El usuario gana
+    }
+    return -1; // La máquina gana
+}
+
+// Función para determinar el ganador del juego
+void jugarJuego(int dificultad) {
+    int usuarioPuntos = 0;
+    int maquinaPuntos = 0;
+
+    // Ajuste de puntos inicial según la dificultad
+    if (dificultad == 1) { // Principiante
+        usuarioPuntos = 0;
+        maquinaPuntos = 0;
+    } else if (dificultad == 2) { // Intermedio
+        usuarioPuntos = 1;
+        maquinaPuntos = 1;
+    } else { // Avanzado
+        usuarioPuntos = 2;
+        maquinaPuntos = 2;
+    }
+
+    cout << "\nComienza el juego de Piedra, Papel o Tijera!" << endl;
+    cout << "Jugarás 5 rondas." << endl;
+
+    // Jugar 5 rondas
+    for (int ronda = 1; ronda <= 5; ronda++) {
+        cout << "\nRonda " << ronda << ":" << endl;
+
+        // Obtener las elecciones del usuario y la máquina
+        int usuarioEleccion = obtenerEleccionUsuario();
+        int maquinaEleccion = obtenerEleccionMaquina();
+
+        
+        cout << "Tu elección: ";
+        if (usuarioEleccion == 1) cout << "Piedra";
+        else if (usuarioEleccion == 2) cout << "Papel";
+        else cout << "Tijera";
+        
+        cout << " | Elección de la máquina: ";
+        if (maquinaEleccion == 1) cout << "Piedra";
+        else if (maquinaEleccion == 2) cout << "Papel";
+        else cout << "Tijera";
+
+    
+        int resultado = determinarGanador(usuarioEleccion, maquinaEleccion);
+
+        if (resultado == 1) {
+            cout << "\n¡Ganaste esta ronda!" << endl;
+            usuarioPuntos++;
+        } else if (resultado == -1) {
+            cout << "\n¡La máquina ganó esta ronda!" << endl;
+            maquinaPuntos++;
+        } else {
+            cout << "\n¡Es un empate en esta ronda!" << endl;
+        }
+
+        cout << "Puntuación: Usuario " << usuarioPuntos << " - Máquina " << maquinaPuntos << endl;
+    }
+
+
+    cout << "\nJuego terminado!" << endl;
+    cout << "Puntuación final: Usuario " << usuarioPuntos << " - Máquina " << maquinaPuntos << endl;
+
+    if (usuarioPuntos > maquinaPuntos) {
+        cout << "¡Felicidades, ganaste el juego!" << endl;
+    } else if (usuarioPuntos < maquinaPuntos) {
+        cout << "La máquina ganó el juego." << endl;
+    } else {
+        cout << "¡Es un empate!" << endl;
+    }
+}
+
+int main() {
+    
+    int dificultad;
+    cout << "Bienvenido al juego de Piedra, Papel o Tijera!" << endl;
+    cout << "Selecciona el nivel de dificultad:" << endl;
+    cout << "1. Principiante" << endl;
+    cout << "2. Intermedio" << endl;
+    cout << "3. Avanzado" << endl;
+    cout << "Elige una opción (1, 2, 3): ";
+    cin >> dificultad;
+
+    jugarJuego(dificultad);
+
+    return 0;
+}
